@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}{{ exercise.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ exercise.title }}</h1>
+    {% if exercise.image %}
+        <img src="{{ exercise.image.url }}" alt="{{ exercise.title }}" class="img-fluid mb-4">
+    {% endif %}
+    <p>{{ exercise.description }}</p>
+
+    <h2>Comments</h2>
+
+    <!-- Comment Form -->
+    <form method="post" action="{% url 'add_comment' pk=exercise.pk %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <!-- Comments List -->
+    <ul class="list-group mt-4">
+        {% for comment in comments %}
+            <li class="list-group-item">
+                <strong>{{ comment.user.username }}:</strong> {{ comment.text }}
+                {% if comment.user == request.user %}
+                    <a href="{% url 'edit_comment' pk=exercise.pk comment_id=comment.id %}" class="btn btn-warning btn-sm float-right ml-2">Edit</a>
+                    <form method="post" action="{% url 'delete_comment' pk=exercise.pk comment_id=comment.id %}" class="float-right">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            // Activate Summernote on all textareas
+            $('textarea').summernote({
+                height: 200,
+                minHeight: null,
+                maxHeight: null,
+                focus: false
+            });
+        });
+    </script>
+{% endblock %}

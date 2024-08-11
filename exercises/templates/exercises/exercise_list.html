@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Exercise List{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Exercise List</h1>
+    <ul class="list-group">
+        {% for exercise in exercises %}
+            <li class="list-group-item">
+                <a href="{% url 'exercise_detail' pk=exercise.pk %}">{{ exercise.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
