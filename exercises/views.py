@@ -9,13 +9,7 @@ def exercise_list(request):
 
 def exercise_detail(request, pk):
     exercise = get_object_or_404(Exercise, pk=pk)
-    comments = exercise.comments.all()
-    form = CommentForm()
-    return render(request, 'exercises/exercise_detail.html', {
-        'exercise': exercise,
-        'comments': comments,
-        'form': form
-    })
+    return render(request, 'exercises/exercise_detail.html', {'exercise': exercise})
 
 @login_required
 def add_comment(request, pk):

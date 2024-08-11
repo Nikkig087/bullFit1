@@ -1,14 +1,32 @@
+<!-- templates/exercises/exercise_list.html -->
 {% extends "base.html" %}
+{% load static %}  <!-- Add this line to load static files -->
+
 
 {% block title %}Exercise List{% endblock %}
 
 {% block content %}
-    <h1 class="mb-4">Exercise List</h1>
-    <ul class="list-group">
-        {% for exercise in exercises %}
-            <li class="list-group-item">
-                <a href="{% url 'exercise_detail' pk=exercise.pk %}">{{ exercise.title }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <!-- Header Image -->
+    <header class="mb-4">
+        <img src="{% static 'images/header_image.jpg' %}" class="img-fluid w-100" alt="Header Image">
+    </header>
+
+    <!-- Exercise List -->
+    <div class="container">
+        <div class="row">
+            {% for exercise in exercises %}
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        {% if exercise.image %}
+                            <img src="{{ exercise.image.url }}" class="card-img-top" alt="{{ exercise.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ exercise.title }}</h5>
+                            <a href="{% url 'exercise_detail' pk=exercise.pk %}" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
