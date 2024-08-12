@@ -68,19 +68,35 @@ def add_comment(request, pk):
 
 @login_required
 def edit_comment(request, pk, comment_id):
+    exercise = get_object_or_404(Exercise, pk=pk)
     comment = get_object_or_404(Comment, id=comment_id)
+
     if request.method == 'POST':
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
-            return redirect('exercise_detail', pk=pk)
+            # Debugging: Check the redirect action
+            print(f"Redirecting to exercise_detail with pk={exercise.pk}")
+            return redirect('exercise_detail', pk=exercise.pk)
     else:
         form = CommentForm(instance=comment)
-    return render(request, 'exercise/edit_comment.html', {'form': form})
 
+    return render(request, 'exercises/edit_comment.html', {
+        'exercise': exercise,
+        'comment': comment,
+        'form': form,
+    })
 
 @login_required
 def delete_comment(request, pk, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
-    comment.delete()
-    return redirect('exercise_detail', pk=pk)
+    exercise = get_object_or_404(Exercise, pk=pk)
+    
+    if request.method == 'POST':
+        comment.delete()
+        return redirect('exercise_detail', pk=exercise.pk)
+    
+    return render(request, 'exercises/confirm_delete.html', {
+        'exercise': exercise,
+        'comment': comment,
+    })

@@ -11,7 +11,8 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
     path('accounts/', include('django.contrib.auth.urls')),  # Authentication URLs
     path('signup/', views.signup, name='signup'),  # Signup URL
+    path('edit_comment/', views.edit_comment, name ='edit_comment'),
     path('', include('exercises.urls')),
     path('registration/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('comments/', include('django_comments.urls')),
+   # path('comments/', include('django_comments.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

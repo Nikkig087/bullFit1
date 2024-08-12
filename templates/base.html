@@ -8,26 +8,62 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+    <!-- Header Section -->
     <header>
-        <nav>
+        <div class="header-logo">
+            <h1>Powercakes</h1>
+            <span>Be true to you!</span>
+        </div>
+        <nav class="main-nav">
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
-    
                 {% if user.is_authenticated %}
-                    <!-- If the user is authenticated, show the logout link -->
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
-                    <!-- If the user is not authenticated, show login and signup links -->
                     <li><a href="{% url 'login' %}">Login</a></li>
                     <li><a href="{% url 'signup' %}">Sign Up</a></li>
                 {% endif %}
             </ul>
         </nav>
     </header>
-    <main>
-        {% block content %}
-        <!-- Page-specific content will be injected here -->
-        {% endblock %}
-    </main>
+
+    <!-- Main Layout with Sidebar and Content -->
+    <div class="layout">
+        <aside class="sidebar">
+            <!-- Sidebar content such as search, categories, social links, etc. -->
+            {% block sidebar %}
+                <section class="profile">
+                    <img src="{% static 'images/profile.jpg' %}" alt="Profile Picture">
+                    <p>Hi, I'm Powercakes!</p>
+                </section>
+                <section class="search">
+                    <input type="text" placeholder="Search...">
+                </section>
+                <section class="social">
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">YouTube</a>
+                </section>
+                <!-- More sidebar sections -->
+            {% endblock %}
+        </aside>
+
+        <main class="content">
+            {% block content %}
+            <!-- Page-specific content goes here -->
+            {% endblock %}
+        </main>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Powercakes. All Rights Reserved.</p>
+    </footer>
 </body>
+{% block extras %}
+<script src="{% static 'js/comments.js' %}"></script>
+<!-- Include Bootstrap JavaScript -->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+{% endblock %}
+
 </html>
