@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Exercise, Comment  # Import Comment from your models.py
 from .forms import CommentForm
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 
 
 class ExerciseListView(ListView):
@@ -29,7 +30,7 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redirect to login page after signup
+            return redirect('login')
     else:
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
