@@ -15,4 +15,4 @@ urlpatterns = [
     path('', include('exercises.urls')),
     path('registration/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
    # path('comments/', include('django_comments.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

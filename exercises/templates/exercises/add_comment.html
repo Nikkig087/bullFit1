@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -8,17 +7,17 @@
             <div class="card">
                 <div class="card-body">
                     <h1 class="card-title">Add Comment</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <div class="d-flex justify-content-between mt-4">
-        <button type="submit">Submit</button>
-    <a href="{% url 'exercise_detail' pk=exercise.pk %}">Back to Exercise</a>
-</div>
-</form>
-</div>
-</div>
-</div>
-</div>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <a href="{% url 'exercise_detail' pk=exercise.pk %}" class="btn btn-secondary">Back to Exercise</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

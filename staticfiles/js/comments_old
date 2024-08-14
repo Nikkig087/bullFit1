@@ -1,0 +1,24 @@
+// static/js/comments.js
+console.log("comments.js is loaded!");
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Select all delete buttons
+    const deleteButtons = document.querySelectorAll('.btn-delete');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Get the data attributes from the clicked button
+            const commentId = this.getAttribute('data-comment_id');
+            const exercisePk = this.getAttribute('data-exercise_pk');
+
+            // Find the delete form within the modal
+            const deleteForm = document.querySelector('#deleteForm');
+
+            // Set the form action URL dynamically
+            deleteForm.action = `/exercise/${exercisePk}/comment/delete/${commentId}/`;
+
+            // Log to the console to confirm the URL is correct
+            console.log(`Form action set to: ${deleteForm.action}`);
+        });
+    });
+});

@@ -1,46 +1,27 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block title %}Exercise List{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <!-- Header Image -->
-    <header class="header-section mb-4">
-        <img src="{% static 'images/header_image.jpg' %}" class="header-img" alt="Header Image">
-    </header>
+  <h1>Exercise List</h1>
+  <ul>
+    {% for exercise in exercises %}
+      <li>
+        <h2><a href="{% url 'exercise_detail' pk=exercise.pk %}">{{ exercise.title }}</a></h2>
+        <p>{{ exercise.description }}</p>
+      </li>
+    {% endfor %}
+  </ul>
 
-    <!-- Exercise List -->
-    <div class="exercise-list container">
-        <div class="row">
-            {% for exercise in exercises %}
-                <div class="col-md-4 mb-4">
-                    <div class="exercise-card card">
-                        {% if exercise.image %}
-                            <img src="{{ exercise.image.url }}" class="card-img-top" alt="{{ exercise.title }}">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ exercise.title }}</h5>
-                            <a href="{% url 'exercise_detail' pk=exercise.pk %}" class="btn btn-primary">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-{% endblock %}
-
-{% block sidebar %}
-<section class="profile">
-    <img src="{% static 'images/profile.jpg' %}" alt="Profile Picture">
-    <p>Hi, I'm Powercakes!</p>
-</section>
-<section class="search">
-    <input type="text" placeholder="Search...">
-</section>
-<section class="social">
-    <a href="#">Instagram</a>
-    <a href="#">Twitter</a>
-    <a href="#">YouTube</a>
-</section>
-<!-- More sidebar sections can be added here -->
+  <!-- Pagination Controls (if paginate_by is set) -->
+  {% if is_paginated %}
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        </li>
+        <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+      </ul>
+    </nav>
+  {% endif %}
 {% endblock %}
