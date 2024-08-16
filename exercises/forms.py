@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comment
+from .models import Comment, ContactMessage
 #from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from allauth.account.forms import SignupForm
@@ -14,3 +14,7 @@ class CustomSignupForm(SignupForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
+class ContactMessageForm(forms.ModelForm):
+    class Meta:
+        model = ContactMessage
+        fields = ['name', 'email', 'message']

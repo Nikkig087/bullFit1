@@ -3,69 +3,59 @@
 {% load static %}
 
 {% block content %}
-  <h1>{{ exercise.title }}</h1>
-  <p>{{ exercise.description }}</p>
+<div id="content">
+    <h1>{{ exercise.title }}</h1>
+    <p>{{ exercise.description }}</p>
 
-  <h3>Comments ({{ comment_count }})</h3>
-  <ul class = "commentList">
-    {% for comment in comments %}
-        <li>
-          <li>
-            {{ comment.body }} 
-          </li>
-          <li>
-            {{ comment.user.username }} on {{ comment.created_on|date:"d M Y, g:i a" }}
-          </li>
-          <li> 
-            {% if not comment.approved %}
-                <em>(This comment is awaiting approval)</em>
-            {% endif %}
-            {% if comment.user == request.user %}
-                <!-- Edit and Delete Buttons -->
-                <a href="{% url 'edit_comment' exercise.pk comment.pk %}" class="btn btn-primary btn-sm">Edit</a>
-                
-<a href="{% url 'delete_comment' exercise.pk comment.pk %}" class="btn btn-danger btn-sm">Delete</a>
-            {% endif %}
+    <h3>Comments ({{ comment_count }})</h3>
+    <ul class="commentList">
+        {% for comment in comments %}
+            <li>
+                <p>{{ comment.body }}</p>
+                <p>{{ comment.user.username }} on {{ comment.created_on|date:"d M Y, g:i a" }}</p>
+                {% if not comment.approved %}
+                    <em>(This comment is awaiting approval)</em>
+                {% endif %}
+                {% if comment.user == request.user %}
+                    <!-- Edit and Delete Buttons -->
+                    <a href="{% url 'edit_comment' exercise.pk comment.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'delete_comment' exercise.pk comment.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                {% endif %}
             </li>
-        </li>
-        <br>
-    {% endfor %}
-</ul>
+        {% endfor %}
+    </ul>
 
-<h3>Leave a Comment</h3>
-<form method="post" action="{% url 'add_comment' exercise.pk %}">
-  {% csrf_token %}
-  {{ comment_form.as_p }}
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <h3>Leave a Comment</h3>
+    <form method="post" action="{% url 'add_comment' exercise.pk %}">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 
- <!-- Message Modal -->
- <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="messageModalLabel">Message</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- Message content will be injected here by JavaScript -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
+    <!-- Message Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Message content will be injected here by JavaScript -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-
 {% endblock %}
 
 {% block extras %}
-  
-
-
 <!-- Include Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="{% static 'js/comments.js' %}"></script>
-  {% endblock %}
+{% endblock %}

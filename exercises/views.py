@@ -7,11 +7,23 @@ from .models import Exercise, Comment
 from .forms import CommentForm
 from django.views import generic
 
+from django.views.generic.edit import FormView
+from django.urls import reverse_lazy
+from .forms import ContactMessageForm
+
 class ExerciseListView(generic.ListView):
     model = Exercise
     template_name = 'exercises/exercise_list.html'
     context_object_name = 'exercises'
     paginate_by = 6
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = ContactMessageForm()  
+        return context
+    
+    def get_queryset(self):
+        return Exercise.objects.order_by('title')  # Ordered by title
 
 def exercise_detail(request, pk):
     exercise = get_object_or_404(Exercise, pk=pk)
@@ -77,3 +89,25 @@ def delete_comment(request, pk, comment_id):
         messages.add_message(request, messages.ERROR, 'You can only delete your own comments!')
 
     return redirect('exercise_detail', pk=pk)
+
+def base_view(request):
+    # Create an instance of the form
+    form = ContactMessageForm()
+
+    # Render the base template and include the form in the context
+    return render(request, 'base.html', {'form': form})
+
+def contact_view(request):
+    if request.method == 'POST':
+        form = ContactMessageForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('thank_you')  # Redirect after POST to avoid re-submission
+    else:
+        form = ContactMessageForm()
+
+    # Render the base template and include the form in the context
+    return render(request, 'base.html', {'form': form})
+
+def thank_you_view(request):
+    return render(request, 'exercises/thank_you.html')

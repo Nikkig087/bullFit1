@@ -1,27 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Exercise List</h1>
-  <ul>
-    {% for exercise in exercises %}
-      <li>
-        <h2><a href="{% url 'exercise_detail' pk=exercise.pk %}">{{ exercise.title }}</a></h2>
-        <p>{{ exercise.description }}</p>
-      </li>
-    {% endfor %}
-  </ul>
+<div class="container mt-4">
+    <h1>Exercise List</h1>
+    <div class="row">
+        {% for exercise in exercises %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{% url 'exercise_detail' pk=exercise.pk %}">{{ exercise.title }}</a></h5>
+                        <p class="card-text">{{ exercise.description }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
-  <!-- Pagination Controls (if paginate_by is set) -->
-  {% if is_paginated %}
-    <nav aria-label="Page navigation">
-      <ul class="pagination">
-        <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
-          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-        </li>
-        <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
-          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-        </li>
-      </ul>
-    </nav>
-  {% endif %}
+    <!-- Pagination Controls -->
+    {% if is_paginated %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+                <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
+</div>
 {% endblock %}
