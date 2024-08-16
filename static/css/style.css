@@ -161,6 +161,10 @@ input:focus, textarea:focus, select:focus {
     border: 1px solid #e9ecef;
 }
 
+.commentList {
+    list-style-type: none;
+}
+
 .comments p {
     margin-bottom: 0.5rem;
 }

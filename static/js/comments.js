@@ -1,20 +1,17 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const deleteButtons = document.querySelectorAll('.btn-delete');
+document.addEventListener('DOMContentLoaded', function() {
+    var deleteButtons = document.querySelectorAll('.btn-delete');
+    var deleteConfirmButton = document.getElementById('deleteConfirm');
 
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const commentId = this.getAttribute('data-comment_id');
-            const exercisePk = this.getAttribute('data-exercise_pk');
+    deleteButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var commentId = button.getAttribute('data-comment_id');
+            var exercisePk = button.getAttribute('data-exercise_pk');
+            var url = "{% url 'delete_comment' 'EXERCISE_PK' 'COMMENT_ID' %}".replace('EXERCISE_PK', exercisePk).replace('COMMENT_ID', commentId);
 
-            // Set the URL for the delete confirmation
-            const deleteConfirmLink = document.getElementById('deleteConfirm');
-            deleteConfirmLink.href = `/delete-comment/${exercisePk}/${commentId}/`;
-
-            // Show the delete confirmation modal
-            const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-            deleteModal.show();
+            deleteConfirmButton.setAttribute('href', url);
         });
     });
+});
 
     // Check for messages and display the message modal
     const messageModal = document.getElementById('messageModal');
@@ -27,4 +24,4 @@ document.addEventListener('DOMContentLoaded', function () {
         const modal = new bootstrap.Modal(messageModal);
         modal.show();
     }
-});
+

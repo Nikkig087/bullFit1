@@ -1,56 +1,32 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponseRedirect
-from django.views import generic
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib import messages
 from .models import Exercise, Comment
 from .forms import CommentForm
-from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login
+from django.views import generic
 
 class ExerciseListView(generic.ListView):
     model = Exercise
     template_name = 'exercises/exercise_list.html'
     context_object_name = 'exercises'
-    paginate_by = 6  # Optional: Paginate if you have many exercises
+    paginate_by = 6
 
 def exercise_detail(request, pk):
     exercise = get_object_or_404(Exercise, pk=pk)
-    comments = exercise.comments.all().order_by("-created_on")
-    comment_count = comments.filter(approved=True).count()
+    comments = exercise.comments.all()
+    comment_form = CommentForm()
+    comment_count = comments.count()
 
-    if request.method == "POST":
-        comment_form = CommentForm(data=request.POST)
-        if comment_form.is_valid():
-            comment = comment_form.save(commit=False)
-            comment.user = request.user
-            comment.exercise = exercise
-            comment.save()
-            messages.success(request, 'Comment submitted and awaiting approval')
-            return redirect('exercise_detail', pk=pk)  # Redirect to the same view to display messages
-    else:
-        comment_form = CommentForm()
+    context = {
+        'exercise': exercise,
+        'comments': comments,
+        'comment_count': comment_count,
+        'comment_form': comment_form,
+    }
 
-    return render(
-        request,
-        "exercises/exercise_detail.html",
-        {
-            "exercise": exercise,
-            "comments": comments,
-            "comment_count": comment_count,
-            "comment_form": comment_form
-        },
-    )
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('home')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'registration/login.html', {'form': form})
+    return render(request, 'exercises/exercise_detail.html', context)
 
 @login_required
 def edit_comment(request, pk, comment_id):
@@ -91,22 +67,13 @@ def add_comment(request, pk):
 
 @login_required
 def delete_comment(request, pk, comment_id):
-    comment = get_object_or_404(Comment, pk=comment_id)
-    if request.method == 'POST' and comment.user == request.user:  # Ensuring the user is the author
-        comment.delete()
-        messages.add_message(
-            request, messages.SUCCESS,
-            'Comment successfully deleted'
-        )
-    return redirect('exercise_detail', pk=pk)
+    exercise = get_object_or_404(Exercise, pk=pk)
+    comment = get_object_or_404(Comment, id=comment_id)
 
-def signup(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')  # Redirect to a home page or any other page after signup
+    if comment.user == request.user:
+        comment.delete()
+        messages.add_message(request, messages.SUCCESS, 'Comment deleted!')
     else:
-        form = UserCreationForm()
-    return render(request, 'registration/signup.html', {'form': form})
+        messages.add_message(request, messages.ERROR, 'You can only delete your own comments!')
+
+    return redirect('exercise_detail', pk=pk)

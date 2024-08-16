@@ -7,63 +7,53 @@
   <p>{{ exercise.description }}</p>
 
   <h3>Comments ({{ comment_count }})</h3>
-  <ul>
+  <ul class = "commentList">
     {% for comment in comments %}
-      {% if comment.approved %}
-        <li>{{ comment.comment }} - {{ comment.user.username }} on {{ comment.created_on }}
-          {% if comment.user == request.user %}
-            <!-- Edit and Delete Buttons -->
-            <a href="{% url 'edit_comment' exercise.pk comment.pk %}" class="btn btn-primary">Edit</a>
-            <button class="btn btn-danger btn-delete" data-comment_id="{{ comment.pk }}" data-exercise_pk="{{ exercise.pk }}">Delete</button>
-          {% endif %}
+        <li>
+          <li>
+            {{ comment.body }} 
+          </li>
+          <li>
+            {{ comment.user.username }} on {{ comment.created_on|date:"d M Y, g:i a" }}
+          </li>
+          <li> 
+            {% if not comment.approved %}
+                <em>(This comment is awaiting approval)</em>
+            {% endif %}
+            {% if comment.user == request.user %}
+                <!-- Edit and Delete Buttons -->
+                <a href="{% url 'edit_comment' exercise.pk comment.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                
+<a href="{% url 'delete_comment' exercise.pk comment.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            {% endif %}
+            </li>
         </li>
-      {% else %}
-        <li>Comment awaiting approval</li>
-      {% endif %}
+        <br>
     {% endfor %}
-  </ul>
+</ul>
 
-  <h3>Leave a Comment</h3>
-  <form method="post">
-    {% csrf_token %}
-    {{ comment_form.as_p }}
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+<h3>Leave a Comment</h3>
+<form method="post" action="{% url 'add_comment' exercise.pk %}">
+  {% csrf_token %}
+  {{ comment_form.as_p }}
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
 
  <!-- Message Modal -->
-<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+ <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="messageModalLabel">Message</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <!-- Message content will be injected here by JavaScript -->
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="messageModalLabel">Message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-  </div>
-</div>
-
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              Are you sure you want to delete this comment?
-          </div>
-          <div class="modal-footer">
-              <a id="deleteConfirm" href="#" class="btn btn-danger">Delete</a>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          </div>
+      <div class="modal-body">
+        <!-- Message content will be injected here by JavaScript -->
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
 </div>
 
