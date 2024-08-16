@@ -91,3 +91,8 @@ body {
 #copyright {
     margin-top: 20px;
 }
+
+
+
+
+.btn:not(:disabled):not(.disabled) {background-color:floralwhite}

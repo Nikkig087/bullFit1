@@ -19,9 +19,9 @@ class ExerciseListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = ContactMessageForm()  
+        context['contact_form'] = ContactMessageForm()  # Use 'contact_form' to avoid confusion
         return context
-    
+
     def get_queryset(self):
         return Exercise.objects.order_by('title')  # Ordered by title
 
@@ -91,11 +91,9 @@ def delete_comment(request, pk, comment_id):
     return redirect('exercise_detail', pk=pk)
 
 def base_view(request):
-    # Create an instance of the form
+    # This view can be used if you have a need to render the base.html directly
     form = ContactMessageForm()
-
-    # Render the base template and include the form in the context
-    return render(request, 'base.html', {'form': form})
+    return render(request, 'base.html', {'contact_form': form})
 
 def contact_view(request):
     if request.method == 'POST':
