@@ -8,8 +8,10 @@
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"><a href="{% url 'exercise_detail' pk=exercise.pk %}">{{ exercise.title }}</a></h5>
-                        <p class="card-text">{{ exercise.description }}</p>
+                        <img src="{{ exercise.image.url }}" class='exerciseimg' {{ exercise.title }}">
+                        <h2>{{ exercise.title }}</h2>
+            <p class="description">{{ exercise.description }}</p>
+            <a href="{% url 'exercise_detail' pk=exercise.pk %}" class="btn btn-primary">More</a>
                     </div>
                 </div>
             </div>

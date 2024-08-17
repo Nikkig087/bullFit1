@@ -6,10 +6,10 @@ from django.contrib import messages
 from .models import Exercise, Comment
 from .forms import CommentForm
 from django.views import generic
-
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from .forms import ContactMessageForm
+from django.db import models
 
 class ExerciseListView(generic.ListView):
     model = Exercise
@@ -109,3 +109,4 @@ def contact_view(request):
 
 def thank_you_view(request):
     return render(request, 'exercises/thank_you.html')
+

@@ -60,9 +60,9 @@ INSTALLED_APPS = [
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'your-cloud-name',
-    'API_KEY': 'your-api-key',
-    'API_SECRET': 'your-api-secret',
+    'CLOUD_NAME': 'dvgozeo62',
+    'API_KEY': '877696538918354',
+    'API_SECRET': '83XoStnIJI0Ux0Snby6soXqGmaE',
 }
 
 # Add these lines to your settings.py
