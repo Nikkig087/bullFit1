@@ -92,7 +92,21 @@ body {
     margin-top: 20px;
 }
 
+.modal-body {
+    color: #312118;
+}
+
+.button.btn-close {
+    color: #312118;
+}
+
+h5#messageModalLabel {
+    color:#312118;;
+}
+
+.btn:not(:disabled):not(.disabled) {
+    background-color: #fff;
+    color: #312118;
+}
 
 
-
-.btn:not(:disabled):not(.disabled) {background-color:floralwhite}
