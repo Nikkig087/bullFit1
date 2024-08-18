@@ -45,13 +45,20 @@ body {
 }
 
 .layout {
-    margin: 20px;
+    margin: 0 0 0 20px;
 }
 
 .card {
     background: #3e2d21;
     color: #fff;
 }
+
+img.img-fluid {
+    margin-top: 20px;
+    margin-left: 0;
+}
+
+p {margin: 0 0 0 20px;}
 
 .card-title a {
     color: #ff7f01;
@@ -150,7 +157,10 @@ p {
 
 h1 {
     text-align: center;
+    margin: 20px 0;
 }
+
+
 
 h2 {
     padding: 10px 5px 0 0 ;
