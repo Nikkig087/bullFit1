@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
-{% block content %}
-<div class="container">
-    <h2>Contact Us</h2>
-    <form method="post" action="{% url 'contact' %}">
-        {% csrf_token %}
-        {{ form.as_p }} <!-- This will render form fields in paragraph tags -->
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+{% block content %} 
+<form id="contactForm" method="post" action="{% url 'contact_form' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
 {% endblock %}
+

@@ -166,6 +166,18 @@ h2 {
     padding: 10px 5px 0 0 ;
 }
 
+h3 {
+    margin-left: 20px;
+}
+
+.comment-btn{
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.modal-title {
+    color: #000;
+}
 textarea {}
 
 /* Card Media Queries */
@@ -173,4 +185,27 @@ textarea {}
 
 .card {
     width: 100%;
+}
+
+.send-btn {
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+/* Styles for mobile devices */
+@media (max-width: 767px) {
+    #id_message {
+        width: 100%; /* Full width on small screens */
+        max-width: 100%; /* No maximum width on small screens */
+        height: 100px; /* Reduced height for small screens */
+    }
+}
+
+/* Optional: Styles for tablets and medium devices */
+@media (min-width: 768px) and (max-width: 1024px) {
+    #id_message {
+        width: 100%;
+        max-width: 90%;
+        height: 120px;
+    }
 }
