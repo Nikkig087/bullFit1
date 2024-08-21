@@ -11,6 +11,7 @@ class Exercise(models.Model):
         User, on_delete=models.CASCADE, related_name="blog_posts")
     image = CloudinaryField('image', blank=True, null=True)
     detailed_image = CloudinaryField('detailed_image', blank=True, null=True)
+    additional_image = CloudinaryField('additional_image', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
 

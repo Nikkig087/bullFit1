@@ -5,8 +5,20 @@
 <form id="contactForm" method="post" action="{% url 'contact_form' %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary submit-btn">Submit</button>
 </form>
 
+{% endblock %}
+{% block footer %}
+<footer class="footer">
+<div class="container text-center">
+    <p>&copy; 2024 Powercakes. All Rights Reserved.</p>
+    <div class="social-links">
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">YouTube</a>
+    </div>
+</div>
+</footer>
 {% endblock %}
 

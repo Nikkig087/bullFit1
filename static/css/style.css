@@ -178,7 +178,7 @@ h3 {
 .modal-title {
     color: #000;
 }
-textarea {}
+
 
 /* Card Media Queries */
 
@@ -187,10 +187,17 @@ textarea {}
     width: 100%;
 }
 
-.send-btn {
+.send-btn{
     margin-bottom: 10px;
     align-items: center;
 }
+
+.submit-btn{
+    margin-bottom: 10px;
+}
+
+
+
 
 /* Styles for mobile devices */
 @media (max-width: 767px) {
