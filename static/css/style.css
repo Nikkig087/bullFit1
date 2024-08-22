@@ -14,6 +14,8 @@ body {
     padding: 20px 0;
 }
 
+.navbar {background-color:burlywood;}
+
 .header-logo h1 {
     margin: 0;
     font-size: 24px;
@@ -65,6 +67,13 @@ p {margin: 0 0 0 20px;}
     text-decoration: none;
 }
 
+.card-body {
+    background-color: burlywood;
+    color: black;
+    border-radius: 15px;
+}
+
+
 .card-title a:hover {
     text-decoration: underline;
 }
@@ -75,8 +84,8 @@ p {margin: 0 0 0 20px;}
 }
 
 .footer {
-    background: #11100f;
-    color: #fff;
+    background: black;
+    color: burlywood;
     padding: 20px 0;
     text-align: center;
 }
@@ -186,6 +195,8 @@ h3 {
 .card {
     width: 100%;
 }
+
+
 
 .send-btn{
     margin-bottom: 10px;
