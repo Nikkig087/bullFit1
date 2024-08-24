@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %} 
+<form id="ReportCommentForm" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-danger">Submit Report</button>
+</form>
+
+{% endblock %}
+{% block footer %}
+<footer class="footer">
+<div class="container text-center">
+    <p>&copy; 2024 Powercakes. All Rights Reserved.</p>
+    <div class="social-links">
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">YouTube</a>
+    </div>
+</div>
+</footer>
+{% endblock %}
+

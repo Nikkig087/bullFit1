@@ -1,18 +1,62 @@
 /* static/css/style.css */
 
-body {
+html,body {
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
     color: #fff;
     background: #312118;
+    height: 100%;
 }
 
-.header {
-    background: #000;
-    color: #fff;
-    padding: 20px 0;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
+
+main {
+    flex: 1; /* Allows the main content to take up the remaining space */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers content vertically if it's shorter than the screen */
+}
+
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    padding: 10px 20px; /* Adjust this as necessary */
+}
+
+main {
+    flex-grow: 1;
+    padding: 0px 20px; /* Reduced padding to minimize white space */
+}
+
+form {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto; /* Center form horizontally */
+}
+
+form label {
+    margin-bottom: 5px; /* Tighten space between labels and inputs */
+}
+
+form input, form textarea {
+    margin-bottom: 10px; /* Tighten space between inputs */
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
 
 .navbar {background-color:burlywood;}
 
@@ -92,8 +136,13 @@ p {margin: 0 0 0 20px;}
     color: burlywood;
     padding: 20px 0;
     text-align: center;
-}
+    padding: 10px 20px;
+    
 
+}
+.comment-form {
+    text-align: center;
+}
 #contact-form {
     margin-bottom: 20px;
 }

@@ -116,15 +116,12 @@
     </div>
 </footer>
 </div>
-{% endblock %}{% block extra_scripts %}
+{% endblock %}
+{% block extra_scripts %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 $(document).ready(function() {
-    // =======================
-    // Contact Form Modal Logic
-    // =======================
-    
     // Open contact form modal and load form via AJAX
     $('#contactButton').on('click', function() {
         console.log('Contact button clicked');
@@ -169,56 +166,13 @@ $(document).ready(function() {
     $('#contactModal').on('hidden.bs.modal', function () {
         $(this).find('.modal-body').html('');  // Clear the modal content when hidden
     });
-
-    // ============================
-    // Report Comment Modal Logic
-    // ============================
-
-    // Load the report comment form when the modal is shown
-    $('#reportModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var commentId = button.data('comment-id'); // Extract info from data-* attributes
-        var modal = $(this);
-        
-        $.ajax({
-            url: "{% url 'report_comment' 0 %}".replace("0", commentId),
-            method: "GET",
-            success: function(data) {
-                modal.find('.modal-body').html(data);
-            },
-            error: function() {
-                modal.find('.modal-body').html('<p>An error occurred while loading the form.</p>');
-            }
-        });
-    });
-
-    // Handle report comment form submission via AJAX
-    $(document).on('submit', '#reportCommentForm', function(event) {
-        event.preventDefault();
-        var form = $(this);
-        var modal = $('#reportModal');
-        
-        $.ajax({
-            url: form.attr('action'),
-            method: "POST",
-            data: form.serialize(),
-            success: function(response) {
-                alert(response.message);
-                modal.modal('hide');
-            },
-            error: function(response) {
-                alert(response.responseJSON.message);
-            }
-        });
-    });
-
-    // Reset report modal content when hidden
-    $('#reportModal').on('hidden.bs.modal', function () {
-        $(this).find('.modal-body').html('');  // Clear the modal content when hidden
-    });
 });
+
+
+
 </script>
 {% endblock %}
+
 
 </body>
 </html>

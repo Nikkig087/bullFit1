@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField  # Import CloudinaryField
 
@@ -44,3 +45,5 @@ class ContactMessage(models.Model):
     def __str__(self):
         return f"Message from {self.name} at {self.created_at}"
 
+
+    

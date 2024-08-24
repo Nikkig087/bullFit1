@@ -1,70 +1,46 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponseRedirect
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Exercise, Comment  # Import Comment from your models.py
-from .forms import CommentForm
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
+from .models import Exercise, Comment
+from .forms import CommentForm
+from django.views import generic
+from django.views.generic.edit import FormView
+from django.urls import reverse_lazy
+from .forms import ContactMessageForm
+from django.db import models
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
-
-class ExerciseListView(ListView):
+class ExerciseListView(generic.ListView):
     model = Exercise
     template_name = 'exercises/exercise_list.html'
     context_object_name = 'exercises'
-
-class ExerciseDetailView(DetailView):
-    model = Exercise
-    template_name = 'exercises/exercise_detail.html'
+    paginate_by = 6
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        exercise = self.get_object()
-        context['comments'] = Comment.objects.filter(exercise=exercise).order_by('-created_on')
-        context['comment_form'] = CommentForm()  # Ensure this is included
+        context['contact_form'] = ContactMessageForm()  # Use 'contact_form' to avoid confusion
         return context
 
+    def get_queryset(self):
+        return Exercise.objects.order_by('title')  # Ordered by title
 
-def signup(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
-    else:
-        form = UserCreationForm()
-    return render(request, 'registration/signup.html', {'form': form})
-
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('home')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'registration/login.html', {'form': form})
-
-
-@login_required
-def add_comment(request, pk):
+def exercise_detail(request, pk):
     exercise = get_object_or_404(Exercise, pk=pk)
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author = request.user  # Set the author to the logged-in user
-            comment.exercise = exercise  # Link comment to exercise directly
-            comment.save()
-            messages.add_message(
-        request, messages.SUCCESS,
-        'Comment submitted and awaiting approval'
-    )
-            return redirect('exercise_detail', pk=pk)
-    else:
-        form = CommentForm()
-    return render(request, 'exercise/add_comment.html', {'form': form})
+    comments = exercise.comments.all()
+    comment_form = CommentForm()
+    comment_count = comments.count()
+
+    context = {
+        'exercise': exercise,
+        'comments': comments,
+        'comment_count': comment_count,
+        'comment_form': comment_form,
+    }
+
+    return render(request, 'exercises/exercise_detail.html', context)
 
 @login_required
 def edit_comment(request, pk, comment_id):
@@ -75,8 +51,6 @@ def edit_comment(request, pk, comment_id):
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
-            # Debugging: Check the redirect action
-            print(f"Redirecting to exercise_detail with pk={exercise.pk}")
             return redirect('exercise_detail', pk=exercise.pk)
     else:
         form = CommentForm(instance=comment)
@@ -88,8 +62,45 @@ def edit_comment(request, pk, comment_id):
     })
 
 @login_required
+def add_comment(request, pk):
+    exercise = get_object_or_404(Exercise, pk=pk)
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.exercise = exercise
+            comment.user = request.user
+            comment.save()
+            messages.success(request, 'Your comment has been added and is awaiting approval.')
+            return redirect('exercise_detail', pk=exercise.pk)
+    else:
+        form = CommentForm()
+
+    return render(request, 'exercises/add_comment.html', {'form': form, 'exercise': exercise})
+
+@login_required
 def delete_comment(request, pk, comment_id):
-    comment = get_object_or_404(Comment, pk=comment_id)
-    if request.method == 'POST' and comment.author == request.user:
+    exercise = get_object_or_404(Exercise, pk=pk)
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    if comment.user == request.user:
         comment.delete()
+        messages.add_message(request, messages.SUCCESS, 'Comment deleted!')
+    else:
+        messages.add_message(request, messages.ERROR, 'You can only delete your own comments!')
+
     return redirect('exercise_detail', pk=pk)
+
+def contact_form(request):
+    if request.method == 'POST':
+        form = ContactMessageForm(request.POST)
+        if form.is_valid():
+            # Here you might save the form data to the database or send an email
+            return JsonResponse({'message': 'Thank you for contacting us!'})
+        else:
+            return JsonResponse({'message': 'There was an error with your submission.'}, status=400)
+    else:
+        form = ContactMessageForm()
+    return render(request, 'exercises/contact_form.html', {'form': form})
+

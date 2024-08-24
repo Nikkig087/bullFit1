@@ -18,3 +18,7 @@ class ContactMessageForm(forms.ModelForm):
     class Meta:
         model = ContactMessage
         fields = ['name', 'email', 'message']
+
+class ReportCommentForm(forms.Form):
+    comment = forms.CharField(widget=forms.Textarea(attrs={'readonly': True}), label="Comment")
+    reason = forms.CharField(widget=forms.Textarea, label="Reason for Reporting")

@@ -9,5 +9,5 @@ urlpatterns = [
     path('exercise/<int:pk>/comment/delete/<int:comment_id>/', views.delete_comment, name='delete_comment'),
     path('exercise/<int:pk>/add_comment/', views.add_comment, name='add_comment'),
     path('contact/', contact_form, name='contact_form'),  # For function-based view
-    #path('thank-you/', thank_you_view, name='thank_you'), 
+    path('exercise/report-comment/<int:comment_id>/', views.report_comment, name='report_comment'),
 ]
