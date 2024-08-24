@@ -2,11 +2,12 @@
 {% load crispy_forms_tags %}
 
 {% block content %} 
-<form id="ReportCommentForm" method="post">
+<form id="reportCommentForm" method="post" action="{% url 'report_comment' comment.id %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-danger">Submit Report</button>
+    <button type="submit" class="btn btn-primary">Submit Report</button>
 </form>
+
 
 {% endblock %}
 {% block footer %}

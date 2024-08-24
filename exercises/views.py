@@ -8,9 +8,8 @@ from .forms import CommentForm
 from django.views import generic
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
-from .forms import ContactMessageForm
+from .forms import ContactMessageForm,ReportCommentForm
 from django.db import models
-from .forms import ReportCommentForm
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 
@@ -106,16 +105,22 @@ def contact_form(request):
     return render(request, 'exercises/contact_form.html', {'form': form})
 
 def report_comment(request, comment_id):
+    if not request.user.is_authenticated:
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'redirect_url': '/accounts/login/'}, status=403)  # Adjust the login URL as necessary
+        else:
+            return redirect('login')
+
     comment = get_object_or_404(Comment, id=comment_id)
     
     if request.method == 'POST':
         form = ReportCommentForm(request.POST)
         if form.is_valid():
-            # Process the report here, such as saving it to the database
+            # Process the report (e.g., save to the database or send an email)
             return JsonResponse({'message': 'Thank you for reporting this comment!'})
         else:
             return JsonResponse({'message': 'There was an error with your submission.'}, status=400)
     else:
         form = ReportCommentForm(initial={'comment': comment.body})
     
-    return render(request, 'exercises/report_comment_form.html', {'form': form})
+    return render(request, 'exercises/report_comment_form.html', {'form': form, 'comment': comment})
