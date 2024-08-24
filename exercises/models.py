@@ -7,11 +7,14 @@ STATUS = ((0, "Draft"), (1, "Published"))
 class Exercise(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
+    detailed_description1 = models.TextField(default='description1')
+    detailed_description2 = models.TextField(default='description2')
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="blog_posts")
     image = CloudinaryField('image', blank=True, null=True)
-    detailed_image = CloudinaryField('detailed_image', blank=True, null=True)
-    additional_image = CloudinaryField('additional_image', blank=True, null=True)
+    top_row_image = CloudinaryField('top_row_image', blank=True, null=True)
+    bottom_row_image = CloudinaryField('bottom_row_image', blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
 

@@ -5,9 +5,12 @@
         "fields": {
             "title": "Example Exercise",
             "description": "This is an example description.",
+            "detailed_description1": "This is an example description.",
+            "detailed_description2": "This is an example description.",
             "author": "1", 
             "image": "",
-            "detailed_image": "",
+            "top_row_image": "",
+            "bottom_row_image": "",
             "created_at": "2024-08-17T00:00:00Z",
             "status": 1
         }
@@ -18,9 +21,12 @@
             "fields": {
                 "title": "Example Exercise",
                 "description": "This is an example description.",
+                "detailed_description1": "This is an example description.",
+                "detailed_description2": "This is an example description.",
                 "author": "1", 
                 "image": "",
-                "detailed_image": "",
+                "top_row_image": "",
+                "bottom_row_image": "",
                 "created_at": "2024-08-17T00:00:00Z",
                 "status": 1
             }

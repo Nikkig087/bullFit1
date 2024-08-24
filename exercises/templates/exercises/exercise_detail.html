@@ -4,33 +4,33 @@
 
 {% block content %}
 <div id="content">
-    <h1 class="display-3 display-md-4 display-sm-5 text-center">{{ exercise.title }}</h1>
+    <h1 class="display-3 display-md-4 display-sm-5 text-center">{{ exercise.title|safe }}</h1>
 
     <!-- First Row: Image on the right, Text on the left -->
-    <div class="row mb-4 align-items-center text-center">
+    <div class="row mb-4 align-items-center description-top">
         <div class="col-12 col-md-6">
-            <p>{{ exercise.description }}</p>
+            <p>{{ exercise.detailed_description1|safe }}</p>
         </div>
         <div class="col-12 col-md-6">
-            <img src="{{ exercise.additional_image.url }}" class="img-fluid" alt="{{ exercise.title }}">
+            <img src="{{ exercise.top_row_image.url }}" class="img-fluid" alt="{{ exercise.title }}">
         </div>
     </div>
 
     <!-- Second Row: Image on the left, Text on the right -->
     <div class="row mb-4 align-items-center text-center">
         <div class="col-12 col-md-6">
-            <img src="{{ exercise.detailed_image.url }}" class="img-fluid" alt="{{ exercise.title }}">
+            <img src="{{ exercise.bottom_row_image.url }}" class="img-fluid" alt="{{ exercise.title }}">
         </div>
         <div class="col-12 col-md-6 text-center">
-            <p>More detailed information or another aspect of the exercise description...</p>
+            <p>{{exercise.detailed_description2|safe}}</p>
         </div>
     </div>
 
     <h3>Comments ({{ comment_count }})</h3>
-    <ul class="commentList">
+    <!--<ul class="commentList">-->
         {% for comment in comments %}
-            <li>
-                <p>{{ comment.body }}</p>
+            
+                <p>{{ comment.body|safe }}</p>
                 <p>{{ comment.user.username }} on {{ comment.created_on|date:"d M Y, g:i a" }}</p>
                 {% if not comment.approved %}
                     <em>(This comment is awaiting approval)</em>
@@ -40,9 +40,9 @@
                     <a href="{% url 'edit_comment' exercise.pk comment.pk %}" class="btn btn-primary btn-sm">Edit</a>
                     <a href="{% url 'delete_comment' exercise.pk comment.pk %}" class="btn btn-danger btn-sm">Delete</a>
                 {% endif %}
-            </li>
+            
         {% endfor %}
-    </ul>
+    
 
     <h3>Leave a Comment</h3>
     <form method="post" action="{% url 'add_comment' exercise.pk %}">

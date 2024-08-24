@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-body">
                         <img src="{{ exercise.image.url }}" class='exerciseimg' {{ exercise.title }}">
-                        <h2>{{ exercise.title }}</h2>
+                        <h2>{{ exercise.title|safe }}</h2>
             <p class="description">{{ exercise.description }}</p>
             <a href="{% url 'exercise_detail' pk=exercise.pk %}" class="btn btn-primary">More</a>
                     </div>
