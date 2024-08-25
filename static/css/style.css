@@ -143,6 +143,12 @@ p {margin: 0 0 0 20px;}
 .comment-form {
     text-align: center;
 }
+
+/* Add this to your CSS file or in a <style> block */
+.alert-container .alert.fade {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;}
+
 #contact-form {
     margin-bottom: 20px;
 }

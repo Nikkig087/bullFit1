@@ -117,10 +117,16 @@ def report_comment(request, comment_id):
         form = ReportCommentForm(request.POST)
         if form.is_valid():
             # Process the report (e.g., save to the database or send an email)
+            # Example: create a report entry
+            # Report.objects.create(user=request.user, comment=comment, reason=form.cleaned_data['reason'])
+            
             return JsonResponse({'message': 'Thank you for reporting this comment!'})
         else:
             return JsonResponse({'message': 'There was an error with your submission.'}, status=400)
     else:
-        form = ReportCommentForm(initial={'comment': comment.body})
+        form = ReportCommentForm(initial={
+            'comment_id': comment.id,
+            'comment_text': comment.body,
+        })
     
     return render(request, 'exercises/report_comment_form.html', {'form': form, 'comment': comment})
