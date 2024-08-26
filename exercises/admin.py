@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django import forms
 from django_summernote.widgets import SummernoteWidget
-from .models import Exercise, Comment
+from .models import Exercise, Comment, ContactMessage, CommentReport
 
 # Define the custom form to use Summernote for the description field in Exercise
 class ExerciseAdminForm(forms.ModelForm):
@@ -37,5 +37,15 @@ class CommentAdmin(admin.ModelAdmin):
     form = CommentAdminForm  # Use the custom form with Summernote
     list_display = ('exercise', 'user', 'created_on', 'approved')
     search_fields = ('exercise__title', 'user__username', 'body')
-    list_filter = ('approved', 'created_on')
+    list_filter = ('approved', 'created_on',)
 
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email','message', 'created_at')
+    search_fields = ('name', 'email', 'message')
+    list_filter = ('name','created_at')
+
+@admin.register(CommentReport)
+class CommentReportAdmin(admin.ModelAdmin):
+    list_display = ('user', 'comment_id', 'reason', 'created_at')
+    search_fields = ('user__username', 'comment_id', 'reason')

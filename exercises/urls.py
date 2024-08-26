@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from .views import contact_form, report_comment
+from .views import ExerciseListView
 
 urlpatterns = [
     path('', views.ExerciseListView.as_view(), name='home'),

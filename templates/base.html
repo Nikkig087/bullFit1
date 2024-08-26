@@ -123,8 +123,8 @@
             </div>
         </div>
     </div>
-
-    <!-- Report Comment Modal -->
+<!----
+     Report Comment Modal -
     <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -135,7 +135,7 @@
                 <form id="reportCommentForm" method="post">
                     {% csrf_token %}
                     <div class="modal-body">
-                        <!-- Content will be loaded via AJAX -->
+                        Content will be loaded via AJAX --
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -145,6 +145,7 @@
             </div>
         </div>
     </div>
+-->
 
     <!-- Additional Scripts -->
     {% block extra_scripts %}
@@ -291,10 +292,7 @@
             });
         });
     </script>
-    
-    
-    
-    </script>
+
     {% endblock %}
 </body>
 </html>
