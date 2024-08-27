@@ -47,9 +47,6 @@ class ContactMessage(models.Model):
    
 class CommentReport(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    comment_id = models.IntegerField()  # Or a ForeignKey if you have a Comment model
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     reason = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Report by {self.user.username} on Comment ID {self.comment_id}"

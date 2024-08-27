@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
-from .models import Exercise, Comment
+from .models import Exercise, Comment, CommentReport
 from .forms import CommentForm
 from django.views import generic
 from django.views.generic.edit import FormView
@@ -131,20 +131,21 @@ def report_comment(request, comment_id):
         if request.headers.get("x-requested-with") == "XMLHttpRequest":
             return JsonResponse(
                 {"redirect_url": "/accounts/login/"}, status=403
-            )  # Adjust the login URL as necessary
+            )
         else:
             return redirect("login")
+    
     comment = get_object_or_404(Comment, id=comment_id)
 
     if request.method == "POST":
         form = ReportCommentForm(request.POST)
         if form.is_valid():
-            # Process the report (e.g., save to the database or
-            # send an email)
-            # Example: create a report entry
-            # Report.objects.create(user=request.user, comment=comment,
-            # reason=form.cleaned_data['reason'])
-
+            # Create and save the CommentReport object
+            CommentReport.objects.create(
+                user=request.user,
+                comment=comment,
+                reason=form.cleaned_data['reason']
+            )
             return JsonResponse(
                 {"message": "Thank you for reporting this comment!"}
             )

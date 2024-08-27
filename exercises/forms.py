@@ -20,6 +20,5 @@ class ContactMessageForm(forms.ModelForm):
         fields = ['name', 'email', 'message']
 
 class ReportCommentForm(forms.Form):
-    comment_id = forms.CharField(widget=forms.HiddenInput())
     comment_text = forms.CharField(widget=forms.Textarea(attrs={'readonly': 'readonly'}))
     reason = forms.CharField(widget=forms.Textarea, label='Reason for Reporting')

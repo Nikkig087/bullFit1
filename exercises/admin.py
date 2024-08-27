@@ -47,5 +47,7 @@ class ContactMessageAdmin(admin.ModelAdmin):
 
 @admin.register(CommentReport)
 class CommentReportAdmin(admin.ModelAdmin):
-    list_display = ('user', 'comment_id', 'reason', 'created_at')
-    search_fields = ('user__username', 'comment_id', 'reason')
+    readonly_fields = ('user', 'comment', 'reason', 'created_at')
+    list_display = ('user', 'comment', 'reason', 'created_at')
+    list_filter = ('created_at', 'user')
+    search_fields = ('user__username', 'comment__body', 'reason')
