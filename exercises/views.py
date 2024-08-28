@@ -126,18 +126,24 @@ def contact_form(request):
     return render(request, 'exercises/contact_form.html', {'form': form})
 
 
+
 def report_comment(request, comment_id):
+    # Check if the user is authenticated
     if not request.user.is_authenticated:
+        # Handle redirect based on request type (standard or AJAX)
         if request.headers.get("x-requested-with") == "XMLHttpRequest":
             return JsonResponse(
                 {"redirect_url": "/accounts/login/"}, status=403
             )
         else:
             return redirect("login")
-    
-    comment = get_object_or_404(Comment, id=comment_id)
 
-    if request.method == "POST":
+    # Fetch the comment and exercise
+    comment = get_object_or_404(Comment, id=comment_id)
+    exercise = comment.exercise  # Assuming Comment has a ForeignKey to Exercise
+
+    # Handle form submission
+    if request.method == 'POST':
         form = ReportCommentForm(request.POST)
         if form.is_valid():
             # Create and save the CommentReport object
@@ -146,23 +152,18 @@ def report_comment(request, comment_id):
                 comment=comment,
                 reason=form.cleaned_data['reason']
             )
-            return JsonResponse(
-                {"message": "Thank you for reporting this comment!"}
-            )
+            messages.success(request, 'Comment reported successfully!')
+            return redirect('exercise_detail', pk=exercise.pk)
         else:
-            return JsonResponse(
-                {"message": "There was an error with your submission."},
-                status=400,
-            )
+            messages.error(request, 'There was an error reporting the comment. Please try again.')
     else:
+        # Display the form with initial data
         form = ReportCommentForm(
             initial={
-                "comment_id": comment.id,
-                "comment_text": comment.body,
+                'comment_id': comment.id,
+                'comment_text': comment.body,
             }
         )
-    return render(
-        request,
-        "exercises/report_comment_form.html",
-        {"form": form, "comment": comment},
-    )
+
+    # Render the form
+    return render(request, 'exercises/report_comment_form.html', {'form': form, 'comment': comment})

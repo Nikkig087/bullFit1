@@ -4,100 +4,65 @@
 
 {% block content %}
 <div class="container mt-4">
-<div id="content">
-     <!-- Messages display block -->
-     {% if messages %}
-     <div class="container">
-         {% for message in messages %}
-             <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                 {{ message }}
-                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-             </div>
-         {% endfor %}
-     </div>
- {% endif %}
-    <h1 class="display-3 display-md-4 display-sm-5 text-center">{{ exercise.title|safe }}</h1>
+    <div id="content">
+        <!-- Messages display block -->
+        {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <h1 class="display-3 display-md-4 display-sm-5 text-center">{{ exercise.title|safe }}</h1>
 
-    <!-- First Row: Image on the right, Text on the left -->
-    <div class="row mb-4 align-items-center details">
-        <div class="col-12 col-md-6">
-            <p>{{ exercise.detailed_description1|safe }}</p>
+        <!-- First Row: Image on the right, Text on the left -->
+        <div class="row mb-4 align-items-center details">
+            <div class="col-12 col-md-6">
+                <p>{{ exercise.detailed_description1|safe }}</p>
+            </div>
+            <div class="col-12 col-md-6">
+                <img src="{{ exercise.top_row_image.url }}" class="img-fluid" alt="{{ exercise.title }}">
+            </div>
         </div>
-        <div class="col-12 col-md-6">
-            <img src="{{ exercise.top_row_image.url }}" class="img-fluid" alt="{{ exercise.title }}">
-        </div>
-    </div>
 
-    <!-- Second Row: Image on the left, Text on the right -->
-    <div class="row mb-4 details">
-        <div class="col-12 col-md-6">
-            <img src="{{ exercise.bottom_row_image.url }}" class="img-fluid" alt="{{ exercise.title }}">
+        <!-- Second Row: Image on the left, Text on the right -->
+        <div class="row mb-4 details">
+            <div class="col-12 col-md-6">
+                <img src="{{ exercise.bottom_row_image.url }}" class="img-fluid" alt="{{ exercise.title }}">
+            </div>
+            <div class="col-12 col-md-6">
+                <p>{{exercise.detailed_description2|safe}}</p>
+            </div>
         </div>
-        <div class="col-12 col-md-6">
-            <p>{{exercise.detailed_description2|safe}}</p>
-        </div>
-    </div>
 
-    <h3>Comments ({{ comment_count }})</h3>
-    <!--<ul class="commentList">-->
+        <h3>Comments ({{ comment_count }})</h3>
         {% for comment in comments %}
-            
-                <p>{{ comment.body|safe }}</p>
-                <p>{{ comment.user.username }} on {{ comment.created_on|date:"d M Y, g:i a" }}</p>
-                {% if not comment.approved %}
-                    <em>(This comment is awaiting approval)</em>
-                {% endif %}
-                {% if comment.user == request.user %}
-                    <!-- Edit and Delete Buttons -->
-                    <a href="{% url 'edit_comment' exercise.pk comment.pk %}" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="{% url 'delete_comment' exercise.pk comment.pk %}" class="btn btn-danger btn-sm">Delete</a>
-                {% endif %}
-            <!-- Report Comment Button -->
+        <p>{{ comment.body|safe }}</p>
+        <p>{{ comment.user.username }} on {{ comment.created_on|date:"d M Y, g:i a" }}</p>
+        {% if not comment.approved %}
+            <em>(This comment is awaiting approval)</em>
+        {% endif %}
+        {% if comment.user == request.user %}
+            <a href="{% url 'edit_comment' exercise.pk comment.pk %}" class="btn btn-primary btn-sm">Edit</a>
+            <a href="{% url 'delete_comment' exercise.pk comment.pk %}" class="btn btn-danger btn-sm">Delete</a>
+        {% endif %}
         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#reportModal" data-comment-id="{{ comment.id }}">
             Report
         </button>
-        {% endfor %}
+    
+    {% endfor %}
     
 
-    <h3 class="comment-form">Leave a Comment</h3>
-    <form method="post" action="{% url 'add_comment' exercise.pk %}">
-        {% csrf_token %}
-        {{ comment_form.as_p }}
-        <button type="submit" class="btn btn-primary comment-btn">Submit</button>
-    </form>
+        <h3 class="comment-form">Leave a Comment</h3>
+        <form method="post" action="{% url 'add_comment' exercise.pk %}">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" class="btn btn-primary comment-btn">Submit</button>
+        </form>
 
-
-<!-- Modal --
-<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                -- Contact form content will be loaded here via AJAX -->
-            <!--</div>
-        </div>
-    </div>
-</div>-->
-
-<!-- Report Comment Modal -->
-<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="reportModalLabel">Report Comment</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                The form content will be loaded here via AJAX
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-
-
+  
 {% endblock %}
