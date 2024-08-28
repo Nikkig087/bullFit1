@@ -25,14 +25,14 @@
                 <p>{{ exercise.detailed_description1|safe }}</p>
             </div>
             <div class="col-12 col-md-6">
-                <img src="{{ exercise.top_row_image.url }}" class="img-fluid" alt="{{ exercise.title }}">
+                <img src="{{ exercise.top_row_image.url }}" class="img-fluid img-fluid-mob" alt="{{ exercise.title }}">
             </div>
         </div>
 
         <!-- Second Row: Image on the left, Text on the right -->
         <div class="row mb-4 details">
             <div class="col-12 col-md-6">
-                <img src="{{ exercise.bottom_row_image.url }}" class="img-fluid" alt="{{ exercise.title }}">
+                <img src="{{ exercise.bottom_row_image.url }}" class="img-fluid img-fluid-mob2" alt="{{ exercise.title }}">
             </div>
             <div class="col-12 col-md-6">
                 <p>{{exercise.detailed_description2|safe}}</p>

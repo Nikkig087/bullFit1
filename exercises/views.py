@@ -125,13 +125,11 @@ def contact_form(request):
 
     return render(request, 'exercises/contact_form.html', {'form': form})
 
-
-
 def report_comment(request, comment_id):
     # Check if the user is authenticated
     if not request.user.is_authenticated:
-        # Handle redirect based on request type (standard or AJAX)
         if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            # Return a JSON response with the redirect URL
             return JsonResponse(
                 {"redirect_url": "/accounts/login/"}, status=403
             )
@@ -142,11 +140,9 @@ def report_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     exercise = comment.exercise  # Assuming Comment has a ForeignKey to Exercise
 
-    # Handle form submission
     if request.method == 'POST':
         form = ReportCommentForm(request.POST)
         if form.is_valid():
-            # Create and save the CommentReport object
             CommentReport.objects.create(
                 user=request.user,
                 comment=comment,
@@ -157,7 +153,6 @@ def report_comment(request, comment_id):
         else:
             messages.error(request, 'There was an error reporting the comment. Please try again.')
     else:
-        # Display the form with initial data
         form = ReportCommentForm(
             initial={
                 'comment_id': comment.id,
@@ -165,5 +160,4 @@ def report_comment(request, comment_id):
             }
         )
 
-    # Render the form
     return render(request, 'exercises/report_comment_form.html', {'form': form, 'comment': comment})

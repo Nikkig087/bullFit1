@@ -99,9 +99,9 @@ form input, form textarea {
     color: #fff;
 }
 
-img.img-fluid {
+.img-fluid {
     margin-top: 0px;
-    margin-left: 50px;
+    margin-left: 15%;
 }
 
 
@@ -291,13 +291,13 @@ h3 {
     }
 }
 
-img.img-fluid {
+img.img-fluid-mob {
     margin-top: 20px;
-    margin-left: 10%;
+    margin-left: 0;
 }
-.img-fluid2 {
+.img-fluid-mob2 {
     margin-top: 20px;
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 
