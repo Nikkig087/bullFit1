@@ -213,29 +213,33 @@
 
     // Report Comment Modal Logic
     $('#reportModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var commentId = button.data('comment-id');
-        var modal = $(this);
-        console.log('Loading report form for comment ID:', commentId);
+    var button = $(event.relatedTarget);
+    var commentId = button.data('comment-id');
+    var modal = $(this);
+    console.log('Loading report form for comment ID:', commentId);
 
-        $.ajax({
-            url: "{% url 'report_comment' 0 %}".replace("0", commentId),
-            method: "GET",
-            success: function (data) {
-                console.log('Report form loaded successfully');
-                modal.find('.modal-body').html(data);
-            },
-            error: function (xhr, status, error) {
-                if (xhr.status === 403) {
-                    var response = JSON.parse(xhr.responseText);
-                    window.location.href = response.redirect_url;
-                } else {
-                    console.error("AJAX request failed: ", status, error);
-                    modal.find('.modal-body').html('<p>An error occurred while loading the form.</p>');
-                }
+    $.ajax({
+        url: "{% url 'report_comment' 0 %}".replace("0", commentId),
+        method: "GET",
+        success: function (data) {
+            console.log('Report form loaded successfully');
+            modal.find('.modal-body').html(data);
+        },
+        error: function (xhr, status, error) {
+            console.log('Error status:', xhr.status);
+            if (xhr.status === 403) {
+                console.log('403 error caught');
+                var response = JSON.parse(xhr.responseText);
+                console.log('Redirecting to:', response.redirect_url);
+                window.location.href = response.redirect_url;
+            } else {
+                console.error("AJAX request failed: ", status, error);
+                modal.find('.modal-body').html('<p>An error occurred while loading the form.</p>');
             }
-        });
+        }
     });
+});
+
 
     // Handle report comment form submission
     $(document).on('submit', '#reportCommentForm', function (event) {

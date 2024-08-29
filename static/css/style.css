@@ -289,9 +289,8 @@ h3 {
         max-width: 100%; /* No maximum width on small screens */
         height: 100px; /* Reduced height for small screens */
     }
-}
 
-img.img-fluid-mob {
+.img-fluid-mob {
     margin-top: 20px;
     margin-left: 0;
 }
@@ -300,7 +299,7 @@ img.img-fluid-mob {
     margin-left: 0;
 }
 
-
+}
 
 /* Optional: Styles for tablets and medium devices */
 @media (min-width: 768px) and (max-width: 1024px) {
