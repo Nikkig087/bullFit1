@@ -18,6 +18,12 @@ class ContactMessageForm(forms.ModelForm):
     class Meta:
         model = ContactMessage
         fields = ['name', 'email', 'message']
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email:
+            raise forms.ValidationError("This field is required.")
+        return email
 
 class ReportCommentForm(forms.Form):
     comment_text = forms.CharField(widget=forms.Textarea(attrs={'readonly': 'readonly'}))
