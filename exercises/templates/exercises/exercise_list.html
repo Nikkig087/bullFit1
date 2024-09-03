@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load webp_filters %}
+
 
 {% block content %}
 <div class="container mt-4">
@@ -8,7 +10,7 @@
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <img src="{{ exercise.image.url }}" class='exerciseimg' alt="{{ exercise.title }}">
+                        <img src="{{ exercise.image.url|webp:260 }}" class='exerciseimg' alt="{{ exercise.title }}">
                         <h2>{{ exercise.title|safe }}</h2>
                         <p class="description">{{ exercise.description }}</p>
                         <a href="{% url 'exercise_detail' pk=exercise.pk %}" class="btn btn-primary">More</a>

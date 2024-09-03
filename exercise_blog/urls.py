@@ -6,7 +6,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('comments/', include('django_comments.urls')),
     path('summernote/', include('django_summernote.urls')),
-    path('accounts/', include('allauth.urls')),  # allauth URLs
-    path('', include('exercises.urls')),  # App URLs
-    
+    path('accounts/', include('allauth.urls')),  
+    path('', include('exercises.urls')),  
 ]

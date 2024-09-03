@@ -176,6 +176,11 @@ textarea {
     color: #312118;
 }
 
+.btn-signup {
+    margin-bottom: 10px;
+    align-self: center;
+}
+
 .button.btn-close {
     color: #312118;
 }
@@ -278,7 +283,10 @@ h3 {
     margin-bottom: 10px;
 }
 
-
+.main-password-reset {
+    justify-content: flex-start;
+    text-align: center;
+}
 
 
 /* Styles for mobile devices */

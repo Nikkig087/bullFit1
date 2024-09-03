@@ -5,7 +5,7 @@
 <form method="post" id="contactForm" action="{% url 'contact_form' %}">
     {% csrf_token %}
     <div class="mb-3">
-        <label for="name" class="form-label">Name</label>
+        <label for="name" class="form-label"></label>
         {{ form.name|as_crispy_field }}
         {% if form.name.errors %}
             <div class="invalid-feedback">
@@ -16,7 +16,7 @@
         {% endif %}
     </div>
     <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
+        <label for="email" class="form-label"></label>
         {{ form.email|as_crispy_field }}
         {% if form.email.errors %}
             <div class="invalid-feedback">
@@ -27,7 +27,7 @@
         {% endif %}
     </div>
     <div class="mb-3">
-        <label for="message" class="form-label">Message</label>
+        <label for="message" class="form-label"></label>
         {{ form.message|as_crispy_field }}
         {% if form.message.errors %}
             <div class="invalid-feedback">

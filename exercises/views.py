@@ -126,17 +126,15 @@ def contact_form(request):
     return render(request, 'exercises/contact_form.html', {'form': form})
 
 def report_comment(request, comment_id):
-    # Check if the user is authenticated
+    # Check if the user is authenticated immediately
     if not request.user.is_authenticated:
+        # If it's an AJAX request, return a JSON response with a redirect URL
         if request.headers.get("x-requested-with") == "XMLHttpRequest":
-            # Return a JSON response with the redirect URL
-            return JsonResponse(
-                {"redirect_url": "/accounts/login/"}, status=403
-            )
-        else:
-            return redirect("login")
+            return JsonResponse({"redirect_url": "/accounts/login/"}, status=403)
+        # Otherwise, redirect to the login page
+        return redirect("login")
 
-    # Fetch the comment and exercise
+    # Fetch the comment and associated exercise
     comment = get_object_or_404(Comment, id=comment_id)
     exercise = comment.exercise  # Assuming Comment has a ForeignKey to Exercise
 
