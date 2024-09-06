@@ -192,17 +192,26 @@ h5#messageModalLabel {
 .btn:not(:disabled):not(.disabled) {
     background-color: #fff;
     color: #312118;
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
 }
 
-img.exerciseimg {
+/*img.exerciseimg {
     max-width: 100%;
     width:  -webkit-fill-available;
     height: 200px;
-}
+}*/
 
 .exercise-list {
     list-style: none;
     padding: 0;
+}
+
+.exerciseimg {
+    width: 100%; 
+    height: auto;
+    object-fit: cover;
 }
 
 .exercise-card {
@@ -239,6 +248,7 @@ h1 {
 
 h2 {
     padding: 10px 5px 0 0 ;
+    text-align: center;
 }
 
 h3 {

@@ -3,18 +3,17 @@ from cloudinary import CloudinaryImage
 
 register = template.Library()
 
-@register.filter(name='webp')
-def convert_to_webp(cloudinary_url, width=None):
+@register.simple_tag
+def webp(cloudinary_url, width=250, height=None):
     if not cloudinary_url:
         return ""
-    
-    # Getting the public_id from the Cloudinary URL
+
     public_id = cloudinary_url.split('/')[-1].split('.')[0]
-    
-    # Build the WebP URL, applying the width if provided
-    if width:
-        webp_url = CloudinaryImage(public_id).build_url(format="webp", width=width, crop="scale")
-    else:
-        webp_url = CloudinaryImage(public_id).build_url(format="webp")
+
+    transformation = {'format': 'webp', 'width': width, 'crop': 'fit'}
+    if height:
+        transformation['height'] = height
+
+    webp_url = CloudinaryImage(public_id).build_url(**transformation)
     
     return webp_url

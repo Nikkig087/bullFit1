@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+<meta name="exercises" content="{% block meta_exercies %}List of Exercices{% endblock %}">
+<meta name="keywords" content="{% block meta_keywords %}fitness, exercise, health{% endblock %}">
 {% load webp_filters %}
 
 
@@ -10,10 +12,10 @@
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <img src="{{ exercise.image.url|webp:260 }}" class='exerciseimg' alt="{{ exercise.title }}">
+                        <img src="{% webp exercise.image.url 250 %}" class='exerciseimg' alt="{{ exercise.title }}">
                         <h2>{{ exercise.title|safe }}</h2>
                         <p class="description">{{ exercise.description }}</p>
-                        <a href="{% url 'exercise_detail' pk=exercise.pk %}" class="btn btn-primary">More</a>
+                        <a href="{% url 'exercise_detail' pk=exercise.pk %}" class="btn btn-primary" aria-label="Read more about {{ exercise.title }}" >Read more about {{ exercise.title }}</a>
                     </div>
                 </div>
             </div>
@@ -27,13 +29,13 @@
                 {% if page_obj.has_previous %}
                 <li>
                     <a href="?page={{ page_obj.previous_page_number }}"
-                      class="page-link">&laquo; PREV</a>
+                      class="page-link"aria-label="Previous page">&laquo; PREV</a>
                 </li>
                 {% endif %}
                 {% if page_obj.has_next %}
                 <li>
                     <a href="?page={{ page_obj.next_page_number }}"
-                      class="page-link">NEXT &raquo;</a>
+                      class="page-link" aria-label="Next page">NEXT &raquo;</a>
                 </li>
                 {% endif %}
             </ul>
